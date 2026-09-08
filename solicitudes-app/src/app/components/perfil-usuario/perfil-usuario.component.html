@@ -1,0 +1,45 @@
+<div class="perfil-panel card">
+  <h3>Configuración de Perfil</h3>
+  
+  <div class="perfil-opciones">
+    <p><strong>Perfil actual:</strong> {{ perfilActual | titlecase }}</p>
+    
+    <div class="botones-perfil">
+      <button 
+        class="btn" 
+        [class.btn-primary]="perfilActual === 'captura'" 
+        [class.btn-secondary]="perfilActual !== 'captura'"
+        (click)="cambiarPerfil('captura')">
+        Perfil Captura
+      </button>
+      <button 
+        class="btn" 
+        [class.btn-info]="perfilActual === 'consulta'" 
+        [class.btn-secondary]="perfilActual !== 'consulta'"
+        (click)="cambiarPerfil('consulta')">
+        Perfil Consulta
+      </button>
+    </div>
+
+    <div class="info-perfiles">
+      <small>
+        <strong>Captura:</strong> Puede crear y editar solicitudes.<br>
+        <strong>Consulta:</strong> Solo puede ver el listado y detalles.
+      </small>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="simulacion-error">
+    <h4>Pruebas de Error</h4>
+    <p>Simular errores en las peticiones:</p>
+    <label class="toggle-label">
+      <input type="checkbox" [checked]="simularError" (change)="toggleSimularError()" />
+      <span>{{ simularError ? 'Activado' : 'Desactivado' }}</span>
+    </label>
+    <small>
+      Cuando está activado, todas las peticiones al servicio devolverán un error para probar los estados de error y reintento.
+    </small>
+  </div>
+</div>

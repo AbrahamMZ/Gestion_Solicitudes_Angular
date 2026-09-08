@@ -1,0 +1,91 @@
+<div class="container">
+  <h2>Listado de Solicitudes</h2>
+
+  <!-- Perfil de usuario -->
+  <div class="perfil-info">
+    <span class="badge" [class.badge-captura]="perfilUsuario === 'captura'" [class.badge-consulta]="perfilUsuario === 'consulta'">
+      Perfil: {{ perfilUsuario | titlecase }}
+    </span>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filtros card">
+    <h3>Filtros</h3>
+    <div class="form-group">
+      <label for="asunto">Buscar por asunto:</label>
+      <input 
+        type="text" 
+        id="asunto" 
+        [(ngModel)]="filtroAsunto" 
+        placeholder="Escribe el asunto..."
+        (keyup.enter)="aplicarFiltros()"
+      />
+    </div>
+    <div class="form-group">
+      <label for="estado">Filtrar por estado:</label>
+      <select id="estado" [(ngModel)]="filtroEstado">
+        <option value="">Todos los estados</option>
+        <option value="pendiente">Pendiente</option>
+        <option value="en_revision">En Revisión</option>
+        <option value="atendida">Atendida</option>
+      </select>
+    </div>
+    <div class="acciones-filtro">
+      <button class="btn btn-primary" (click)="aplicarFiltros()">Aplicar Filtros</button>
+      <button class="btn btn-secondary" (click)="limpiarFiltros()">Limpiar</button>
+    </div>
+  </div>
+
+  <!-- Estado de carga -->
+  <div *ngIf="loading" class="loading">
+    <p>Cargando solicitudes...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error-message">
+    <p><strong>Error:</strong> {{ error }}</p>
+    <button class="btn btn-warning" (click)="reintentar()">Reintentar</button>
+  </div>
+
+  <!-- Lista de solicitudes -->
+  <div *ngIf="!loading && !error" class="lista-solicitudes">
+    <div *ngIf="solicitudes.length === 0" class="sin-registros">
+      <p>No se encontraron solicitudes que coincidan con los filtros.</p>
+    </div>
+
+    <table *ngIf="solicitudes.length > 0" class="tabla-solicitudes">
+      <thead>
+        <tr>
+          <th>Folio</th>
+          <th>Área</th>
+          <th>Asunto</th>
+          <th>Estado</th>
+          <th>Fecha Creación</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let solicitud of solicitudes">
+          <td>{{ solicitud.folio }}</td>
+          <td>{{ solicitud.area }}</td>
+          <td>{{ solicitud.asunto }}</td>
+          <td>
+            <span class="badge" [ngClass]="getEstadoColor(solicitud.estado)">
+              {{ solicitud.estado | titlecase }}
+            </span>
+          </td>
+          <td>{{ solicitud.fechaCreacion }}</td>
+          <td class="acciones">
+            <a [routerLink]="['/detalle', solicitud.id]" class="btn btn-sm btn-info">Ver Detalle</a>
+            <a *ngIf="perfilUsuario === 'captura'" [routerLink]="['/editar', solicitud.id]" class="btn btn-sm btn-primary">Editar</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Botón para nueva solicitud (solo perfil captura) -->
+  <div *ngIf="perfilUsuario === 'captura'" class="nueva-solicitud">
+    <a routerLink="/nueva" class="btn btn-success">Nueva Solicitud</a>
+  </div>
+</div>

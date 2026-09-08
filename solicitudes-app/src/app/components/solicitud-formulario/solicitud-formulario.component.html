@@ -1,0 +1,75 @@
+<div class="container">
+  <h2>{{ esEdicion ? 'Editar Solicitud' : 'Nueva Solicitud' }}</h2>
+
+  <!-- Estado de carga -->
+  <div *ngIf="loading" class="loading">
+    <p>{{ esEdicion ? 'Cargando solicitud...' : 'Guardando solicitud...' }}</p>
+  </div>
+
+  <!-- Mensaje de éxito -->
+  <div *ngIf="exito" class="success-message">
+    <p><strong>¡Operación exitosa!</strong> Redirigiendo...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error && !loading" class="error-message">
+    <p><strong>Error:</strong> {{ error }}</p>
+  </div>
+
+  <!-- Formulario -->
+  <form *ngIf="!loading && !exito" [formGroup]="formulario" (ngSubmit)="onSubmit()" class="formulario card">
+    
+    <div class="form-group">
+      <label for="area">Área:</label>
+      <input 
+        type="text" 
+        id="area" 
+        formControlName="area"
+        placeholder="Ej: Recursos Humanos, TI, Finanzas..."
+        [class.is-invalid]="campoArea?.invalid && campoArea?.touched"
+      />
+      <small *ngIf="campoArea?.invalid && campoArea?.touched" class="error-text">
+        <span *ngIf="campoArea?.errors?.['required']">El área es requerida.</span>
+        <span *ngIf="campoArea?.errors?.['minlength']">Mínimo 3 caracteres.</span>
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="asunto">Asunto:</label>
+      <input 
+        type="text" 
+        id="asunto" 
+        formControlName="asunto"
+        placeholder="Describe brevemente el asunto..."
+        [class.is-invalid]="campoAsunto?.invalid && campoAsunto?.touched"
+      />
+      <small *ngIf="campoAsunto?.invalid && campoAsunto?.touched" class="error-text">
+        <span *ngIf="campoAsunto?.errors?.['required']">El asunto es requerido.</span>
+        <span *ngIf="campoAsunto?.errors?.['minlength']">Mínimo 5 caracteres.</span>
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="estado">Estado:</label>
+      <select 
+        id="estado" 
+        formControlName="estado"
+        [class.is-invalid]="campoEstado?.invalid && campoEstado?.touched"
+      >
+        <option value="pendiente">Pendiente</option>
+        <option value="en_revision">En Revisión</option>
+        <option value="atendida">Atendida</option>
+      </select>
+      <small *ngIf="campoEstado?.invalid && campoEstado?.touched" class="error-text">
+        El estado es requerido.
+      </small>
+    </div>
+
+    <div class="acciones-form">
+      <button type="submit" class="btn btn-primary" [disabled]="formulario.invalid || loading">
+        {{ esEdicion ? 'Actualizar' : 'Crear' }} Solicitud
+      </button>
+      <a routerLink="/lista" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>

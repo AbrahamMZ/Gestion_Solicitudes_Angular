@@ -1,0 +1,54 @@
+<div class="container">
+  <h2>Detalle de Solicitud</h2>
+
+  <!-- Estado de carga -->
+  <div *ngIf="loading" class="loading">
+    <p>Cargando detalle de la solicitud...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error && !loading" class="error-message">
+    <p><strong>Error:</strong> {{ error }}</p>
+    <button class="btn btn-warning" (click)="reintentar()">Reintentar</button>
+  </div>
+
+  <!-- Detalle de la solicitud -->
+  <div *ngIf="!loading && !error && solicitud" class="detalle-card card">
+    <div class="detalle-header">
+      <h3>{{ solicitud.folio }}</h3>
+      <span class="badge" [ngClass]="getEstadoColor(solicitud.estado)">
+        {{ solicitud.estado | titlecase }}
+      </span>
+    </div>
+
+    <div class="detalle-body">
+      <div class="detalle-item">
+        <label>Área:</label>
+        <span>{{ solicitud.area }}</span>
+      </div>
+      <div class="detalle-item">
+        <label>Asunto:</label>
+        <span>{{ solicitud.asunto }}</span>
+      </div>
+      <div class="detalle-item">
+        <label>Fecha de Creación:</label>
+        <span>{{ solicitud.fechaCreacion }}</span>
+      </div>
+      <div class="detalle-item">
+        <label>ID:</label>
+        <span>{{ solicitud.id }}</span>
+      </div>
+    </div>
+
+    <div class="acciones-detalle">
+      <a routerLink="/lista" class="btn btn-secondary">Volver al Listado</a>
+      <a *ngIf="perfilUsuario === 'captura'" [routerLink]="['/editar', solicitud.id]" class="btn btn-primary">Editar</a>
+    </div>
+  </div>
+
+  <!-- Solicitud no encontrada -->
+  <div *ngIf="!loading && !error && !solicitud" class="sin-registros">
+    <p>No se encontró la solicitud solicitada.</p>
+    <a routerLink="/lista" class="btn btn-secondary">Volver al Listado</a>
+  </div>
+</div>
