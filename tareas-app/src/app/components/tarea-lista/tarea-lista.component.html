@@ -1,0 +1,31 @@
+<div class="container">
+  <h1>Lista de Tareas</h1>
+  
+  <div class="input-container">
+    <input 
+      type="text" 
+      [(ngModel)]="nuevaTarea" 
+      placeholder="Nueva tarea..."
+      (keyup.enter)="agregarTarea()"
+    >
+    <button (click)="agregarTarea()">Agregar</button>
+  </div>
+
+  <ul class="tareas-lista">
+    <li *ngFor="let tarea of tareas" [class.completada]="tarea.completada">
+      <input 
+        type="checkbox" 
+        [checked]="tarea.completada"
+        (change)="toggleCompletada(tarea)"
+      >
+      <span>{{ tarea.titulo }}</span>
+      <button class="btn-eliminar" (click)="eliminarTarea(tarea.id)">Eliminar</button>
+    </li>
+  </ul>
+
+  <p *ngIf="tareas.length === 0" class="sin-tareas">No hay tareas. ¡Agrega una!</p>
+  
+  <p *ngIf="tareas.length > 0" class="total-tareas">
+    Total: {{ tareas.length }} | Completadas: {{ getTareasCompletadasCount() }}
+  </p>
+</div>
