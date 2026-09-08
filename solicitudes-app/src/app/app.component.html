@@ -1,0 +1,23 @@
+<div class="app-container">
+  <header class="header">
+    <h1>{{ title }}</h1>
+    <nav class="navegacion">
+      <a routerLink="/lista" routerLinkActive="activo">Listado</a>
+      <a routerLink="/nueva" routerLinkActive="activo">Nueva Solicitud</a>
+    </nav>
+  </header>
+
+  <main class="contenido-principal">
+    <div class="sidebar">
+      <app-perfil-usuario></app-perfil-usuario>
+    </div>
+    
+    <div class="area-contenido">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Gestión de Solicitudes - Proyecto Angular</p>
+  </footer>
+</div>

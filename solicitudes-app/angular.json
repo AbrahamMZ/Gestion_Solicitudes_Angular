@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "tareas-app": {
+    "solicitudes-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:class": {
@@ -38,7 +38,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/tareas-app",
+            "outputPath": "dist/solicitudes-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -82,10 +82,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "tareas-app:build:production"
+              "buildTarget": "solicitudes-app:build:production"
             },
             "development": {
-              "buildTarget": "tareas-app:build:development"
+              "buildTarget": "solicitudes-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -93,7 +93,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "tareas-app:build"
+            "buildTarget": "solicitudes-app:build"
           }
         },
         "test": {
